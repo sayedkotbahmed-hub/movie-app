@@ -32,11 +32,11 @@ extension MovieCategoryColor on MovieCategory {
   Color get color {
     switch (this) {
       case MovieCategory.topRated:
-        return const Color.fromARGB(255, 3, 193, 171);
+        return const Color.fromARGB(255, 2, 79, 187);
       case MovieCategory.nowPlaying:
-        return const Color.fromARGB(255, 2, 112, 101);
+        return const Color.fromARGB(255, 3, 120, 159);
       case MovieCategory.comingSoon:
-        return const Color.fromARGB(255, 0, 101, 69);
+        return const Color.fromARGB(255, 1, 131, 99);
     }
   }
 }
