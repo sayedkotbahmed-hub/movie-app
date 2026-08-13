@@ -1,5 +1,5 @@
-import '../core/movie_category.dart';
-import '../models/movie_model.dart';
+import 'package:movie_app/core/movie_category.dart';
+import 'package:movie_app/models/movie_model.dart';
 
 class MovieLocalDataSource {
   final Map<MovieCategory, List<MovieModel>> _cache = {};

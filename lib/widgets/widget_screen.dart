@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../core/movie_category.dart';
-import '../providers/movie_list_provider.dart';
-import '../screens/movie_list_screen.dart';
+import 'package:movie_app/core/movie_category.dart';
+import 'package:movie_app/providers/movie_list_provider.dart';
+import 'package:movie_app/screens/movie_list_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WidgetScreen extends StatefulWidget {

@@ -1,8 +1,8 @@
-import '../core/movie_category.dart';
-import '../models/movie_model.dart';
-import '../data_sources/movie_local_data_source.dart';
-import '../data_sources/movie_remote_data_source.dart';
-import '../models/movie_detail_model.dart';
+import 'package:movie_app/core/movie_category.dart';
+import 'package:movie_app/models/movie_model.dart';
+import 'package:movie_app/data_sources/movie_local_data_source.dart';
+import 'package:movie_app/data_sources/movie_remote_data_source.dart';
+import 'package:movie_app/models/movie_detail_model.dart';
 
 class MovieRepository {
   final MovieLocalDataSource _localDataSource = MovieLocalDataSource();

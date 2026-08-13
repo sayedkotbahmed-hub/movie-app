@@ -1,4 +1,4 @@
-import '../core/api_constants.dart';
+import 'package:movie_app/core/api_constants.dart';
 
 class MovieDetailModel {
   final int id;

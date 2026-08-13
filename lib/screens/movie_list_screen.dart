@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../core/movie_category.dart';
-import '../providers/movie_list_provider.dart';
-import '../widgets/movie_card.dart';
-import '../widgets/error_view.dart';
+import 'package:movie_app/core/movie_category.dart';
+import 'package:movie_app/providers/movie_list_provider.dart';
+import 'package:movie_app/widgets/movie_card.dart';
+import 'package:movie_app/widgets/error_view.dart';
 
 class MovieListScreen extends StatefulWidget {
   final MovieCategory category;

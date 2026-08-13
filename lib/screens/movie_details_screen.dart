@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/movie_model.dart';
-import '../providers/movie_detail_provider.dart';
-import '../widgets/movie_card.dart';
-import '../widgets/error_view.dart';
+import 'package:movie_app/models/movie_model.dart';
+import 'package:movie_app/providers/movie_detail_provider.dart';
+import 'package:movie_app/widgets/movie_card.dart';
+import 'package:movie_app/widgets/error_view.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
   final MovieModel movie;

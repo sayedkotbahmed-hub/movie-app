@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../core/app_exceptions.dart';
-import '../models/movie_detail_model.dart';
-import '../models/movie_model.dart';
-import '../repositories/movie_repository.dart';
+import 'package:movie_app/core/app_exceptions.dart';
+import 'package:movie_app/models/movie_detail_model.dart';
+import 'package:movie_app/models/movie_model.dart';
+import 'package:movie_app/repositories/movie_repository.dart';
 
 class MovieDetailProvider extends ChangeNotifier {
   final MovieRepository _repository = MovieRepository();
