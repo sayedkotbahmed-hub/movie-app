@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/core/app_navigator.dart';
+import 'package:movie_app/core/movie_category.dart';
 import 'package:movie_app/models/movie_model.dart';
 
-import 'package:movie_app/core/app_navigator.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieModel movie;
+   final MovieCategory? category;
 
-  const MovieCard({super.key, required this.movie});
+  const MovieCard({super.key, required this.movie, required this.category});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-  onTap: () => AppNavigator.toMovieDetails(context, movie),
+  onTap: () => AppNavigator.toMovieDetails(context, movie, category),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
