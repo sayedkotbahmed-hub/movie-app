@@ -1,7 +1,7 @@
 import 'package:movie_app/core/movie_category.dart';
 import 'package:movie_app/models/movie_model.dart';
 
-class MovieLocalDataSource {
+class MoviesLocal {
   final Map<MovieCategory, List<MovieModel>> _cache = {};
 
   List<MovieModel>? getCachedMovies(MovieCategory category) {

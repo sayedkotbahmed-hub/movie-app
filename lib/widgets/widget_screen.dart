@@ -4,6 +4,7 @@ import 'package:movie_app/core/movie_category.dart';
 import 'package:movie_app/providers/movie_list_provider.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/core/app_navigator.dart';
 
 class WidgetScreen extends StatefulWidget {
   const WidgetScreen({super.key});
@@ -45,14 +46,9 @@ class _WidgetScreenState extends State<WidgetScreen> {
     super.dispose();
   }
 
-  void _onTabTapped(int index) {
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
-
+void _onTabTapped(int index) {
+  AppNavigator.animateToTab(_pageController, index);
+}
   void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;

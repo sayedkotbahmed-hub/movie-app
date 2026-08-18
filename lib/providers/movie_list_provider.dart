@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/core/movie_category.dart';
 import 'package:movie_app/core/app_exceptions.dart';
+import 'package:movie_app/data/repo/movies_repo.dart';
 import 'package:movie_app/models/movie_model.dart';
-import 'package:movie_app/repositories/movie_repository.dart';
 
 class MovieListProvider extends ChangeNotifier {
-  final MovieRepository _repository = MovieRepository();
+  final MoviesRepo _repo = MoviesRepo();
   final MovieCategory category;
 
   MovieListProvider(this.category);
@@ -21,7 +21,7 @@ class MovieListProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      movies = await _repository.getMovies(category);
+      movies = await _repo.getMovies(category);
     } on NoInternetException catch (e) {
       errorMessage = e.message;
     } on ServerException catch (e) {
@@ -41,8 +41,9 @@ class MovieListProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      movies = await _repository.getMovies(category, loadMore: true);
+      movies = await _repo.getMovies(category, loadMore: true);
     } catch (e) {
+      // فشل تحميل صفحة إضافية مش لازم يمسح الأفلام الموجودة أصلاً
     }
 
     isLoadingMore = false;

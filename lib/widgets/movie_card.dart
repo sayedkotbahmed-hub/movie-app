@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/models/movie_model.dart';
-import 'package:movie_app/screens/movie_details_screen.dart';
+
+import 'package:movie_app/core/app_navigator.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieModel movie;
@@ -10,13 +11,7 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => MovieDetailsScreen(movie: movie),
-          ),
-        );
-      },
+  onTap: () => AppNavigator.toMovieDetails(context, movie),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
