@@ -19,73 +19,75 @@ class MovieDetailsScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-   
-    return ChangeNotifierProvider(
-      create: (context) => MovieDetailProvider(movie.id)..fetchDetails(),
-      child: Scaffold(
-        body: Consumer<MovieDetailProvider>(
-          builder: (context, provider, child) {
-            if (provider.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+Widget build(BuildContext context) {
+  final themeColor = category?.color ?? Colors.grey;
 
-            if (provider.errorMessage != null) {
-              return Scaffold(
-                appBar: AppBar(),
-                body: ErrorView(
-                  message: provider.errorMessage!,
-                  onRetry: provider.fetchDetails,
-                ),
-              );
-            }
+  return ChangeNotifierProvider(
+    create: (context) => MovieDetailProvider(movie.id)..fetchDetails(),
+    child: Scaffold(
+      backgroundColor: themeColor,
+      body: Consumer<MovieDetailProvider>(
+        builder: (context, provider, child) {
+          if (provider.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-            if (provider.movieDetail == null) {
-              return const Center(
-                child: Text('No details found.'),
-              );
-            }
+          if (provider.errorMessage != null) {
+            return Scaffold(
+              backgroundColor: themeColor,
+              appBar: AppBar(backgroundColor: themeColor),
+              body: ErrorView(
+                message: provider.errorMessage!,
+                onRetry: provider.fetchDetails,
+              ),
+            );
+          }
 
-            final detail = provider.movieDetail!;
+          if (provider.movieDetail == null) {
+            return const Center(
+              child: Text('No details found.'),
+            );
+          }
 
-            return CustomScrollView(
-              slivers: [
-                MovieDetailAppBar(detail: detail),
+          final detail = provider.movieDetail!;
 
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        MovieDetailHeader(detail: detail),
+          return CustomScrollView(
+            slivers: [
+              MovieDetailAppBar(detail: detail, themeColor: themeColor),
 
-                        const SizedBox(height: 16),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MovieDetailHeader(detail: detail),
 
-                        Text(
-                          detail.overview,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            height: 1.5,
-                          ),
+                      const SizedBox(height: 16),
+
+                      Text(
+                        detail.overview,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          height: 1.5,
                         ),
+                      ),
 
-                        const SizedBox(height: 24),
+                      const SizedBox(height: 24),
 
-                        MovieRecommendationsList(
-                          recommendations: provider.recommendations,
-                        ),
-                      ],
-                    ),
+                      MovieRecommendationsList(
+                        recommendations: provider.recommendations,
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
-    );
-  }
-}
+    ),
+  );
+}}
