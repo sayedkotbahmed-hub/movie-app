@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:movie_app/core/app_exceptions.dart';
+import 'package:movie_app/network/network_error_messages.dart';
 import 'package:movie_app/network/network_service.dart';
 
 class NetworkErrorHandling  {

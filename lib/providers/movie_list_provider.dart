@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/core/movie_category.dart';
-import 'package:movie_app/core/app_exceptions.dart';
+import 'package:movie_app/network/network_error_messages.dart';
 import 'package:movie_app/data/repo/movies_repo.dart';
 import 'package:movie_app/models/movie_model.dart';
 

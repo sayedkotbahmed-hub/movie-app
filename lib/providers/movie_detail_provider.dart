@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/core/app_exceptions.dart';
+import 'package:movie_app/network/network_error_messages.dart';
 import 'package:movie_app/data/repo/movie_details_repo.dart';
 import 'package:movie_app/models/movie_detail_model.dart';
 import 'package:movie_app/models/movie_model.dart';
