@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/core/app_exceptions.dart';
+import 'package:movie_app/network/network_error_messages.dart';
+import 'package:movie_app/data/repo/movie_details_repo.dart';
 import 'package:movie_app/models/movie_detail_model.dart';
 import 'package:movie_app/models/movie_model.dart';
-import 'package:movie_app/repositories/movie_repository.dart';
 
 class MovieDetailProvider extends ChangeNotifier {
-  final MovieRepository _repository = MovieRepository();
+  final MovieDetailsRepo _repo = MovieDetailsRepo();
   final int movieId;
 
   MovieDetailProvider(this.movieId);
@@ -21,8 +21,8 @@ class MovieDetailProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      movieDetail = await _repository.getMovieDetails(movieId);
-      recommendations = await _repository.getRecommendations(movieId);
+      movieDetail = await _repo.getMovieDetails(movieId);
+      recommendations = await _repo.getRecommendations(movieId);
     } on NoInternetException catch (e) {
       errorMessage = e.message;
     } on ServerException catch (e) {

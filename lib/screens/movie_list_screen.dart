@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:movie_app/core/movie_category.dart';
 import 'package:movie_app/providers/movie_list_provider.dart';
-import 'package:movie_app/widgets/movie_card.dart';
+import 'package:movie_app/widgets/movie_grid_view.dart';
 import 'package:movie_app/widgets/error_view.dart';
 
 class MovieListScreen extends StatefulWidget {
@@ -43,37 +43,31 @@ class _MovieListScreenState extends State<MovieListScreen> {
   Widget build(BuildContext context) {
     return Consumer<MovieListProvider>(
       builder: (context, provider, child) {
-        if (provider.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (provider.errorMessage != null) {
-          return ErrorView(
-            message: provider.errorMessage!,
-            onRetry: provider.fetchMovies,
-          );
-        }
-
-        if (provider.movies.isEmpty) {
-          return const Center(child: Text('No movies found.'));
-        }
-
-        return GridView.builder(
-          controller: _scrollController,
-          padding: const EdgeInsets.all(12),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 10,
-            childAspectRatio: 0.5,
-          ),
-          itemCount: provider.movies.length,
-          itemBuilder: (context, index) {
-            final movie = provider.movies[index];
-            return MovieCard(movie: movie);
-          },
-        );
+        return _buildBody(provider);
       },
+    );
+  }
+
+  Widget _buildBody(MovieListProvider provider) {
+    if (provider.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (provider.errorMessage != null) {
+      return ErrorView(
+        message: provider.errorMessage!,
+        onRetry: provider.fetchMovies,
+      );
+    }
+
+    if (provider.movies.isEmpty) {
+      return const Center(child: Text('No movies found.'));
+    }
+
+    return MovieGridView(
+      movies: provider.movies,
+      category: widget.category,
+      controller: _scrollController,
     );
   }
 }

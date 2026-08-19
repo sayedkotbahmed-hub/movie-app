@@ -1,11 +1,22 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_app/core/api_constants.dart';
 
+part 'movie_model.g.dart';
+
+@JsonSerializable()
 class MovieModel {
   final int id;
   final String title;
+
+  @JsonKey(name: 'vote_average')
   final double movieRate;
+
+  @JsonKey(name: 'poster_path')
   final String? posterPath;
+
+  @JsonKey(name: 'release_date')
   final String? releaseDate;
+
   final String overview;
 
   const MovieModel({
@@ -22,14 +33,8 @@ class MovieModel {
     return '${ApiConstants.imageBaseUrl}$posterPath';
   }
 
-  factory MovieModel.fromJson(Map<String, dynamic> json) {
-    return MovieModel(
-      id: json['id'],
-      title: json['title'],
-      movieRate: json['vote_average'],
-      posterPath: json['poster_path'],
-      releaseDate: json['release_date'],
-      overview: json['overview'],
-    );
-  }
+  factory MovieModel.fromJson(Map<String, dynamic> json) =>
+      _$MovieModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MovieModelToJson(this);
 }

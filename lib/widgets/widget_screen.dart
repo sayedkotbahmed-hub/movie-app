@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:movie_app/core/movie_category.dart';
+import 'package:movie_app/core/app_navigator.dart';
 import 'package:movie_app/providers/movie_list_provider.dart';
-import 'package:movie_app/screens/movie_list_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/widgets/home_app_bar.dart';
+import 'package:movie_app/widgets/home_bottom_nav_bar.dart';
+import 'package:movie_app/widgets/home_page_view.dart';
 
 class WidgetScreen extends StatefulWidget {
   const WidgetScreen({super.key});
@@ -46,11 +47,7 @@ class _WidgetScreenState extends State<WidgetScreen> {
   }
 
   void _onTabTapped(int index) {
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    AppNavigator.animateToTab(_pageController, index);
   }
 
   void _onPageChanged(int index) {
@@ -63,52 +60,16 @@ class _WidgetScreenState extends State<WidgetScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _categories[_selectedIndex].color,
-      appBar: AppBar(
-        backgroundColor: _categories[_selectedIndex].color,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Text(
-            _categories[_selectedIndex].label,
-            style: GoogleFonts.cinzel(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 2,
-            ),
-          ),
-        ),
-      ),
-      body: PageView(
+      appBar: HomeAppBar(category: _categories[_selectedIndex]),
+      body: HomePageView(
         controller: _pageController,
+        categories: _categories,
+        providers: _providers,
         onPageChanged: _onPageChanged,
-        children: List.generate(_categories.length, (index) {
-          return ChangeNotifierProvider.value(
-            value: _providers[index],
-            child: MovieListScreen(category: _categories[index]),
-          );
-        }),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        currentIndex: _selectedIndex,
+      bottomNavigationBar: HomeBottomNavBar(
+        selectedIndex: _selectedIndex,
         onTap: _onTabTapped,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.star),
-            label: 'Top Rated',
-            backgroundColor: MovieCategory.topRated.color,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.play_circle),
-            label: 'Now Playing',
-            backgroundColor: MovieCategory.nowPlaying.color,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.upcoming),
-            label: 'Coming Soon',
-            backgroundColor: MovieCategory.comingSoon.color,
-          ),
-        ],
       ),
     );
   }

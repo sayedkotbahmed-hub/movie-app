@@ -1,26 +1,24 @@
-import "package:movie_app/models/movie_model.dart";
+import 'package:json_annotation/json_annotation.dart';
+import 'movie_model.dart';
 
+part 'movie_list_response.g.dart';
+
+@JsonSerializable()
 class MovieListResponse {
   final int page;
   final List<MovieModel> results;
+
+  @JsonKey(name: 'total_pages')
   final int totalPages;
- 
 
   const MovieListResponse({
     required this.page,
     required this.results,
     required this.totalPages,
-  
   });
 
-  factory MovieListResponse.fromJson(Map<String, dynamic> json) {
-    return MovieListResponse(
-      page: json['page'],
-      results: (json['results'] as List)
-    .map((movieJson) => MovieModel.fromJson(movieJson))
-    .toList(),
-      totalPages: json['total_pages'],
-   
-    );
-  }
+  factory MovieListResponse.fromJson(Map<String, dynamic> json) =>
+      _$MovieListResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MovieListResponseToJson(this);
 }
