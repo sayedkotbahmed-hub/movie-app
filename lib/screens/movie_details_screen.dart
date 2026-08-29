@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/movie_category.dart';
 import 'package:movie_app/models/movie_model.dart';
-import 'package:movie_app/providers/movie_detail_provider.dart';
+import 'package:movie_app/providers/movie_detail_cubit.dart';
+import 'package:movie_app/providers/movie_detail_state.dart';
 import 'package:movie_app/widgets/error_view.dart';
 import 'package:movie_app/widgets/movie_detail_app_bar.dart';
 import 'package:movie_app/widgets/movie_detail_header.dart';
@@ -22,36 +23,36 @@ class MovieDetailsScreen extends StatelessWidget {
 Widget build(BuildContext context) {
   final themeColor = category?.color ?? Colors.grey;
 
-  return ChangeNotifierProvider(
-    create: (context) => MovieDetailProvider(movie.id)..fetchDetails(),
+  return BlocProvider(
+    create: (context) => MovieDetailCubit(movie.id)..fetchDetails(),
     child: Scaffold(
       backgroundColor: themeColor,
-      body: Consumer<MovieDetailProvider>(
-        builder: (context, provider, child) {
-          if (provider.isLoading) {
+      body:BlocBuilder<MovieDetailCubit, MovieDetailState>(
+        builder: (context, state) {
+          if (state.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          if (provider.errorMessage != null) {
+          if (state.errorMessage != null) {
             return Scaffold(
               backgroundColor: themeColor,
               appBar: AppBar(backgroundColor: themeColor),
               body: ErrorView(
-                message: provider.errorMessage!,
-                onRetry: provider.fetchDetails,
+                message: state.errorMessage!,
+                onRetry: () => context.read<MovieDetailCubit>().fetchDetails(),
               ),
             );
           }
 
-          if (provider.movieDetail == null) {
+          if (state.movieDetail == null) {
             return const Center(
               child: Text('No details found.'),
             );
           }
 
-          final detail = provider.movieDetail!;
+          final detail = state.movieDetail!;
 
           return CustomScrollView(
             slivers: [
@@ -78,7 +79,7 @@ Widget build(BuildContext context) {
                       const SizedBox(height: 24),
 
                       MovieRecommendationsList(
-                        recommendations: provider.recommendations,
+                        recommendations: state.recommendations,
                       ),
                     ],
                   ),

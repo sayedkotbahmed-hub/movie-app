@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/movie_category.dart';
-import 'package:movie_app/providers/movie_list_provider.dart';
+import 'package:movie_app/providers/movie_list_cubit.dart';
+import 'package:movie_app/providers/movie_list_state.dart';
 import 'package:movie_app/widgets/movie_grid_view.dart';
 import 'package:movie_app/widgets/error_view.dart';
 
@@ -35,37 +36,37 @@ class _MovieListScreenState extends State<MovieListScreen> {
     final currentScroll = _scrollController.position.pixels;
 
     if (currentScroll >= maxScroll - 200) {
-      context.read<MovieListProvider>().loadMoreMovies();
+      context.read<MovieListCubit>().loadMoreMovies();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MovieListProvider>(
-      builder: (context, provider, child) {
-        return _buildBody(provider);
+   return BlocBuilder<MovieListCubit,MovieListState>(
+      builder: (context, state) {
+        return _buildBody(context, state);
       },
     );
   }
 
-  Widget _buildBody(MovieListProvider provider) {
-    if (provider.isLoading) {
+  Widget _buildBody(BuildContext context, MovieListState state) {
+    if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (provider.errorMessage != null) {
+    if (state.errorMessage != null) {
       return ErrorView(
-        message: provider.errorMessage!,
-        onRetry: provider.fetchMovies,
+        message: state.errorMessage!,
+        onRetry: () => context.read<MovieListCubit>().fetchMovies(),
       );
     }
 
-    if (provider.movies.isEmpty) {
+    if (state.movies.isEmpty) {
       return const Center(child: Text('No movies found.'));
     }
 
     return MovieGridView(
-      movies: provider.movies,
+      movies: state.movies,
       category: widget.category,
       controller: _scrollController,
     );

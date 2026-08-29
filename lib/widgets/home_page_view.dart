@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/movie_category.dart';
-import 'package:movie_app/providers/movie_list_provider.dart';
+import 'package:movie_app/providers/movie_list_cubit.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
 
 class HomePageView extends StatelessWidget {
   final PageController controller;
   final List<MovieCategory> categories;
-  final List<MovieListProvider> providers;
+  final List<MovieListCubit> cubits ;
   final ValueChanged<int> onPageChanged;
 
   const HomePageView({
     super.key,
     required this.controller,
     required this.categories,
-    required this.providers,
+    required this.cubits,
     required this.onPageChanged,
   });
 
@@ -24,8 +24,8 @@ class HomePageView extends StatelessWidget {
       controller: controller,
       onPageChanged: onPageChanged,
       children: List.generate(categories.length, (index) {
-        return ChangeNotifierProvider.value(
-          value: providers[index],
+        return BlocProvider.value(
+          value: cubits[index],
           child: MovieListScreen(category: categories[index]),
         );
       }),

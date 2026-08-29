@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/core/movie_category.dart';
 import 'package:movie_app/core/app_navigator.dart';
-import 'package:movie_app/providers/movie_list_provider.dart';
+import 'package:movie_app/providers/movie_list_cubit.dart';
 import 'package:movie_app/widgets/home_app_bar.dart';
 import 'package:movie_app/widgets/home_bottom_nav_bar.dart';
 import 'package:movie_app/widgets/home_page_view.dart';
@@ -23,22 +23,20 @@ class _WidgetScreenState extends State<WidgetScreen> {
     MovieCategory.comingSoon,
   ];
 
-  late final List<MovieListProvider> _providers;
+  late final List<MovieListCubit> _cubits;
 
-  @override
-  void initState() {
-    super.initState();
+@override
+void initState() {
+  super.initState();
 
-    _providers = _categories
-        .map((category) => MovieListProvider(category))
-        .toList();
+  _cubits = _categories
+      .map((category) => MovieListCubit(category))
+      .toList();
 
-    Future.microtask(() {
-      for (final provider in _providers) {
-        provider.fetchMovies();
-      }
-    });
+  for (final cubit in _cubits) {
+    cubit.fetchMovies();
   }
+}
 
   @override
   void dispose() {
@@ -64,7 +62,7 @@ class _WidgetScreenState extends State<WidgetScreen> {
       body: HomePageView(
         controller: _pageController,
         categories: _categories,
-        providers: _providers,
+        cubits:_cubits,
         onPageChanged: _onPageChanged,
       ),
       bottomNavigationBar: HomeBottomNavBar(
